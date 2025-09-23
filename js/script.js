@@ -37,8 +37,12 @@ expenseForm.addEventListener('submit', function (event) {
 
   // call the function to add rows
   addExpenseRow(newExpense);
+
+  // total up expenses from the table
+  updateDashboard();
 });
 
+// Create the expense object
 function Expense(date, merchant, category, description, amount) {
   this.date = date;
   this.merchant = merchant;
@@ -94,3 +98,51 @@ function addExpenseRow(expense) {
   newRow.appendChild(editColumn);
   newRow.appendChild(deleteColumn);
 }
+
+function updateDashboard() {
+  let totalAmount = 0;
+  for (let i = 0; i < expenses.length; i++) {
+    totalAmount += expenses[i].amount;
+  }
+  let totalTrans = expenses.length;
+
+  // Update DOM elements (new code goes here)
+  // Target #total-amount and #total-trans elements
+  // Set their textContent to the calculated values
+  let dashTrans = document.querySelector('#total-trans');
+  dashTrans.textContent = totalTrans;
+
+  let dashAmount = document.querySelector('#total-amount');
+  dashAmount.textContent = '$' + totalAmount.toFixed(2);
+
+  let categoryTotals = {};
+  for (let i = 0; i < expenses.length; i++) {
+    categoryTotals[expenses[i].category] =
+      (categoryTotals[expenses[i].category] || 0) + expenses[i].amount;
+  }
+  let highestCatAmount = 0;
+  let highestCategory = '';
+
+  for (category in categoryTotals) {
+    if (categoryTotals[category] > highestCatAmount) {
+      highestCatAmount = categoryTotals[category];
+      highestCategory = category;
+    }
+  }
+
+  let mostExpensive = document.querySelector('#most-expensive');
+  mostExpensive.textContent = highestCategory;
+
+  let mostExpensiveAmount = document.querySelector('#most-expensive-amount');
+  mostExpensiveAmount.textContent = highestCatAmount;
+}
+
+let tableBody = document.querySelector('tbody');
+tableBody.addEventListener('click', function (event) {
+  if (event.target.classList.contains('delete-btn')) {
+    let expenseId = event.target.getAttribute('data-expense-id');
+    event.target.closest('tr').remove();
+    expenses = expenses.filter((expense) => expense.id != expenseId);
+  }
+  updateDashboard();
+});
