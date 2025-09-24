@@ -59,14 +59,19 @@ function addExpenseRow(expense) {
   // expense fields
   let dateColumn = document.createElement('td');
   dateColumn.textContent = expense.date;
+  dateColumn.setAttribute('data-label', 'Date');
   let merchantColumn = document.createElement('td');
   merchantColumn.textContent = expense.merchant;
+  merchantColumn.setAttribute('data-label', 'Merchant');
   let categoryColumn = document.createElement('td');
   categoryColumn.textContent = expense.category;
+  categoryColumn.setAttribute('data-label', 'Category');
   let descriptionColumn = document.createElement('td');
   descriptionColumn.textContent = expense.description;
+  descriptionColumn.setAttribute('data-label', 'Description');
   let amountColumn = document.createElement('td');
   amountColumn.textContent = '$' + expense.amount.toFixed(2);
+  amountColumn.setAttribute('data-label', 'Amount');
 
   // buttons
   let editColumn = document.createElement('td');
@@ -78,6 +83,8 @@ function addExpenseRow(expense) {
     >
       ✏️ edit
     </button>`;
+  editColumn.setAttribute('data-label', 'Edit');
+
   let deleteColumn = document.createElement('td');
   deleteColumn.innerHTML = `<button
       type="button"
@@ -87,6 +94,8 @@ function addExpenseRow(expense) {
     >
       🗑️ delete
     </button>`;
+  deleteColumn.setAttribute('data-label', 'Delete');
+
   // add row
   tableBody.appendChild(newRow);
   // add columns
@@ -146,3 +155,32 @@ tableBody.addEventListener('click', function (event) {
   }
   updateDashboard();
 });
+
+function loadSeedData() {
+  let sampleExpenses = [
+    new Expense(
+      '2025-08-21',
+      'Starbucks',
+      'food-and-groceries',
+      'morning coffee',
+      5.47
+    ),
+    new Expense('2025-07-15', 'Old Navy', 'clothing', 'jeans', 68.48),
+    new Expense(
+      '2025-06-21',
+      'King Soopers',
+      'food-and-groceries',
+      'weekly groceries',
+      133.48
+    ),
+  ];
+
+  sampleExpenses.forEach((expense) => {
+    expenses.push(expense);
+    addExpenseRow(expense);
+  });
+
+  updateDashboard();
+}
+
+loadSeedData();

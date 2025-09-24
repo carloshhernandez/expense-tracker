@@ -112,6 +112,32 @@ body {
   display: block;
 }
 
+@media (max-width: 768px) {
+  .pure-table thead { display: none; }
+  
+  .pure-table tbody tr {
+    display: block;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: #f9f9f9;
+    max-width: none;
+  }
+  
+  .pure-table td {
+    display: block;
+    padding: 0.15rem 0;
+    border: none;
+  }
+  
+  .pure-table td:before {
+    content: attr(data-label) ": ";
+    font-weight: bold;
+    display: inline-block;
+    min-width: 90px;
+  }
+}
 /* EXPENSE FORM ITEMS */
 
 /* ==========================================================================
